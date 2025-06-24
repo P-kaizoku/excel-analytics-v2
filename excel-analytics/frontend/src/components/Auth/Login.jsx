@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { login } from "../../services/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,8 +18,14 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // 🚨 Force redirect without checking login response
-    navigate("/dashboard");
+
+    const res = await login({ email, password });
+
+    if (res.success) {
+      navigate("/dashboard");
+    } else {
+      alert(res.message);
+    }
   };
 
   const content = {

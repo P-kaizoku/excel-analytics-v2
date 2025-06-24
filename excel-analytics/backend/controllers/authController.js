@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
     }
 
     // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -51,6 +51,8 @@ exports.login = async (req, res) => {
       { id: user._id, role: user.role },
       process.env.JWT_SECRET
     );
+
+    console.log(user);
 
     // Send response with token and user data (excluding password)
     return res.status(200).json({
